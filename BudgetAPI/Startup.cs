@@ -27,6 +27,28 @@ namespace BudgetProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //allows calls from any origin
+            /*services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                    });
+            });*/
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Policy",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://127.0.0.1:4500")
+                           .AllowAnyMethod();
+                    });
+            });
+
             services.AddControllers().AddNewtonsoftJson(options =>
                          options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
@@ -43,6 +65,9 @@ namespace BudgetProject
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //app.UseCors("AllowAll);
+            app.UseCors("Policy");
 
             app.UseHttpsRedirection();
 
