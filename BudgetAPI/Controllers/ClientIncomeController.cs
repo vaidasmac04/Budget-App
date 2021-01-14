@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BudgetAPI.Data;
 using BudgetProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetAPI.Controllers
 {
     [Route("api/ClientIncome")]
     [ApiController]
+    [Authorize]
     public class ClientIncomeController : ControllerBase
     {
         private readonly BudgetContext _context;
@@ -24,6 +26,7 @@ namespace BudgetAPI.Controllers
         [HttpGet("{clientId}")]
         public async Task<ActionResult<IEnumerable<Income>>> GetIncome(int clientId)
         {
+
             var incomes = await _context.Income.Where(o => o.ClientId == clientId).ToListAsync();
 
             if (incomes == null)

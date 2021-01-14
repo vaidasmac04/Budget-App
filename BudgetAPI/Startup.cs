@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BudgetAPI.Data;
+using BudgetAPI.Helpers;
+using BudgetAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using BudgetAPI.Data;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BudgetProject
 {
@@ -28,7 +28,7 @@ namespace BudgetProject
         public void ConfigureServices(IServiceCollection services)
         {
             //allows calls from any origin
-            /*services.AddCors(options =>
+            services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
                     builder =>
@@ -38,24 +38,60 @@ namespace BudgetProject
                         .AllowAnyMethod()
                         .AllowAnyHeader();
                     });
-            });*/
-            services.AddCors(options =>
-            {
-                options.AddPolicy("Policy",
-                    builder =>
-                    {
-                        builder.WithOrigins("http://127.0.0.1:4500")
-                           .AllowAnyMethod();
-                    });
             });
 
             services.AddControllers().AddNewtonsoftJson(options =>
                          options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<BudgetContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("BudgetContext")));
+                options.UseSqlServer(Configuration.GetConnectionString("BudgetContext")));
 
             services.AddSwaggerGen();
+
+            // configure strongly typed settings objects
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var clientService = context.HttpContext.RequestServices.GetRequiredService<IClientAuthentication>();
+                        var clientId = int.Parse(context.Principal.Identity.Name);
+                        var client = clientService.GetById(clientId);
+                        if (client == null)
+                        {
+                            // return unauthorized if user no longer exists
+                            context.Fail("Unauthorized");
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+
+            // configure DI for application services
+            services.AddScoped<IClientAuthentication, ClientAuthentication>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,12 +102,13 @@ namespace BudgetProject
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseCors("AllowAll);
-            app.UseCors("Policy");
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
