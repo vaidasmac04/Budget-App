@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using BudgetAPI.Models.DbEntities;
+using System.Collections.Generic;
 
 
-namespace BudgetProject.Models
+namespace BudgetProject.Models.DbEntities
 {
     public class Client
     {
@@ -13,5 +14,8 @@ namespace BudgetProject.Models
         public byte[] PasswordSalt { get; set; }
         public virtual ICollection<Outcome> Outcomes { get; set; }
         public virtual ICollection<Income> Incomes { get; set; }
+        public ICollection<ClientCategory> ClientCategories { get; set; }
+        public ICollection<ClientItem> ClientItems { get; set; }
+        public ICollection<ClientSource> ClientSources { get; set; }
     }
 }

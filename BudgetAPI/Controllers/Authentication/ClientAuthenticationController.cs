@@ -10,6 +10,7 @@ using BudgetAPI.Models;
 using BudgetAPI.Models.Authentication;
 using BudgetAPI.Services;
 using BudgetProject.Models;
+using BudgetProject.Models.DbEntities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

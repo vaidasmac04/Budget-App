@@ -24,7 +24,7 @@ namespace BudgetAPI.Controllers
         [HttpGet("{clientId}")]
         public async Task<ActionResult<IEnumerable<Outcome>>> GetOutcomes(int clientId)
         {
-            var outcomes = await _context.Outcome.Where(o => o.ClientId == clientId).ToListAsync();
+            var outcomes = await _context.Outcomes.Where(o => o.ClientId == clientId).ToListAsync();
 
             if (outcomes == null)
             {
@@ -66,7 +66,7 @@ namespace BudgetAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Outcome>> PostOutcome(Outcome outcome)
         {
-            _context.Outcome.Add(outcome);
+            _context.Outcomes.Add(outcome);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetOutcome", new { id = outcome.Id }, outcome);
@@ -75,13 +75,13 @@ namespace BudgetAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Outcome>> DeleteOutcome(int id)
         {
-            var outcome = await _context.Outcome.FindAsync(id);
+            var outcome = await _context.Outcomes.FindAsync(id);
             if (outcome == null)
             {
                 return NotFound();
             }
 
-            _context.Outcome.Remove(outcome);
+            _context.Outcomes.Remove(outcome);
             await _context.SaveChangesAsync();
 
             return outcome;
@@ -89,7 +89,7 @@ namespace BudgetAPI.Controllers
 
         private bool OutcomeExists(int id)
         {
-            return _context.Outcome.Any(e => e.Id == id);
+            return _context.Outcomes.Any(e => e.Id == id);
         }
     }
 }

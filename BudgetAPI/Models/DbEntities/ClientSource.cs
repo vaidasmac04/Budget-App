@@ -1,17 +1,13 @@
-﻿using BudgetAPI.Models.DbEntities;
-using BudgetProject.Models.DbEntities;
+﻿using BudgetProject.Models.DbEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BudgetProject.Models
+namespace BudgetAPI.Models.DbEntities
 {
-    public class Income
+    public class ClientSource
     {
-        public int Id { get; set; }
-        public double Value { get; set; }
-        public DateTime Date { get; set; }
         public int ClientId { get; set; }
         public Client Client { get; set; }
         public int SourceId { get; set; }

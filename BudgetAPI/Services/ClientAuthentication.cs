@@ -1,5 +1,6 @@
 ﻿using BudgetAPI.Data;
 using BudgetProject.Models;
+using BudgetProject.Models.DbEntities;
 using System;
 using System.Linq;
 
@@ -19,7 +20,7 @@ namespace BudgetAPI.Services
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var client = _context.Client.SingleOrDefault(x => x.Username == username);
+            var client = _context.Clients.SingleOrDefault(x => x.Username == username);
 
             if (client == null)
                 return null;
@@ -32,7 +33,7 @@ namespace BudgetAPI.Services
 
         public Client GetById(int id)
         {
-            return _context.Client.Find(id);
+            return _context.Clients.Find(id);
         }
 
         public Client Create(Client client, string password)
@@ -43,7 +44,7 @@ namespace BudgetAPI.Services
             }
                
 
-            if (_context.Client.Any(x => x.Username == client.Username))
+            if (_context.Clients.Any(x => x.Username == client.Username))
             {
                 throw new ArgumentException("Username '" + client.Username + "' is already taken");
             }
@@ -54,7 +55,7 @@ namespace BudgetAPI.Services
             client.PasswordHash = passwordHash;
             client.PasswordSalt = passwordSalt;
 
-            _context.Client.Add(client);
+            _context.Clients.Add(client);
             _context.SaveChanges();
 
             return client;

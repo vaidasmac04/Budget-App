@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BudgetAPI.Data;
 using BudgetProject.Models;
+using BudgetProject.Models.DbEntities;
 
 namespace BudgetAPI.Controllers
 {
@@ -24,7 +25,7 @@ namespace BudgetAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Client>> GetClient(int id)
         {
-            var client = await _context.Client.FirstOrDefaultAsync(c => c.Id == id);
+            var client = await _context.Clients.FirstOrDefaultAsync(c => c.Id == id);
 
             if (client == null)
             {
@@ -67,7 +68,7 @@ namespace BudgetAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Client>> PostClient(Client client)
         {
-            _context.Client.Add(client);
+            _context.Clients.Add(client);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetClient", new { id = client.Id }, client);
@@ -76,13 +77,13 @@ namespace BudgetAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Client>> DeleteClient(int id)
         {
-            var client = await _context.Client.FindAsync(id);
+            var client = await _context.Clients.FindAsync(id);
             if (client == null)
             {
                 return NotFound();
             }
 
-            _context.Client.Remove(client);
+            _context.Clients.Remove(client);
             await _context.SaveChangesAsync();
 
             return client;
@@ -90,7 +91,7 @@ namespace BudgetAPI.Controllers
 
         private bool ClientExists(int id)
         {
-            return _context.Client.Any(e => e.Id == id);
+            return _context.Clients.Any(e => e.Id == id);
         }
     }
 }

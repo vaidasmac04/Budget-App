@@ -15,7 +15,7 @@ namespace BudgetAPI.Data
             using (var context = new BudgetContext(serviceProvider.GetRequiredService<DbContextOptions<BudgetContext>>()))
             {
 
-                if (context.Client.Any())
+                if (context.Clients.Any())
                 {
                     //this should be uncommented if database is seeded but needs to be cleared
                     //ClearDatabase(context);
@@ -112,9 +112,9 @@ namespace BudgetAPI.Data
 
         public static void ClearDatabase(BudgetContext context)
         {
-            context.RemoveRange(context.Client);
-            context.RemoveRange(context.Income);
-            context.RemoveRange(context.Outcome);
+            context.RemoveRange(context.Clients);
+            context.RemoveRange(context.Incomes);
+            context.RemoveRange(context.Outcomes);
             context.SaveChanges();
         }
     }

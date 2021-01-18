@@ -27,7 +27,7 @@ namespace BudgetAPI.Controllers
         public async Task<ActionResult<IEnumerable<Income>>> GetIncome(int clientId)
         {
 
-            var incomes = await _context.Income.Where(o => o.ClientId == clientId).ToListAsync();
+            var incomes = await _context.Incomes.Where(o => o.ClientId == clientId).ToListAsync();
 
             if (incomes == null)
             {
@@ -69,7 +69,7 @@ namespace BudgetAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Income>> PostIncome(Income income)
         {
-            _context.Income.Add(income);
+            _context.Incomes.Add(income);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetIncome", new { clientId = income.Id }, income);
@@ -78,13 +78,13 @@ namespace BudgetAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Income>> DeleteIncome(int id)
         {
-            var income = await _context.Income.FindAsync(id);
+            var income = await _context.Incomes.FindAsync(id);
             if (income == null)
             {
                 return NotFound();
             }
 
-            _context.Income.Remove(income);
+            _context.Incomes.Remove(income);
             await _context.SaveChangesAsync();
 
             return income;
@@ -92,7 +92,7 @@ namespace BudgetAPI.Controllers
 
         private bool IncomeExists(int id)
         {
-            return _context.Income.Any(e => e.Id == id);
+            return _context.Incomes.Any(e => e.Id == id);
         }
     }
 }
