@@ -1,4 +1,6 @@
 ﻿using BudgetAPI.Data;
+using BudgetAPI.Data.Seeder;
+using BudgetAPI.Extensions;
 using BudgetAPI.Helpers;
 using BudgetAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,7 +46,9 @@ namespace BudgetProject
                          options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<BudgetContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("BudgetContext")));
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("BudgetContext"));
+            });
 
             services.AddSwaggerGen();
 
@@ -92,6 +96,9 @@ namespace BudgetProject
 
             // configure DI for application services
             services.AddScoped<IClientAuthentication, ClientAuthentication>();
+            services.AddTransient<ISeeder, Seeder>();
+            services.AddTransient<IParser, CSVParser>();
+            services.AddTransient<IDeleter, Deleter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetAPI.Data;
+using BudgetAPI.Data.Seeder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,16 +23,6 @@ namespace BudgetProject
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-
-                try
-                {
-                    Seeder.Seed(services);
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred seeding the DB.");
-                }
             }
 
             host.Run();

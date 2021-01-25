@@ -2,6 +2,7 @@
 using BudgetProject.Models;
 using BudgetAPI.Models.DbEntities;
 using BudgetProject.Models.DbEntities;
+using BudgetAPI.Extensions;
 
 namespace BudgetAPI.Data
 {
@@ -65,6 +66,8 @@ namespace BudgetAPI.Data
                 .HasOne(cs => cs.Source)
                 .WithMany(c => c.ClientSources)
                 .HasForeignKey(cs => cs.SourceId);
+
+            modelBuilder.Seed();
         }
     }
 }
