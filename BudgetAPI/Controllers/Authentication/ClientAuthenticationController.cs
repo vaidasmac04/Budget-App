@@ -19,7 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace BudgetAPI.Controllers.Login
 {
     [Authorize]
-    [Route("api/Authentication/ClientAuthentication")]
+    [Route("api/Authentication")]
     [ApiController]
     public class ClientAuthenticationController : ControllerBase
     {
