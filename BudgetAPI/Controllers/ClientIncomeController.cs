@@ -1,98 +1,133 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BudgetAPI.Data;
-using BudgetProject.Models;
 using Microsoft.AspNetCore.Authorization;
+using BudgetAPI.Services.Incomes;
+using BudgetAPI.Models;
+using BudgetAPI.ViewModels;
+using BudgetAPI.Mapping;
 
 namespace BudgetAPI.Controllers
 {
-    [Route("api/ClientIncome")]
+    [Route("api/Income")]
     [ApiController]
     [Authorize]
     public class ClientIncomeController : ControllerBase
     {
-        private readonly BudgetContext _context;
+        private readonly IIncomeHandler _incomeHandler;
+        private readonly IEntityMapper<Income, IncomeViewModel> _mapper;
 
-        public ClientIncomeController(BudgetContext context)
+        public ClientIncomeController(IIncomeHandler incomeHandler,
+            IEntityMapper<Income, IncomeViewModel> mapper)
         {
-            _context = context;
+            _incomeHandler = incomeHandler;
+            _mapper = mapper;
         }
 
         [HttpGet("{clientId}")]
-        public async Task<ActionResult<IEnumerable<Income>>> GetIncome(int clientId)
+        public async Task<ActionResult<IEnumerable<IncomeViewModel>>> GetIncomes(int clientId)
         {
 
-            var incomes = await _context.Incomes.Where(o => o.ClientId == clientId).ToListAsync();
-
-            if (incomes == null)
-            {
-                return NotFound();
-            }
-
-            return incomes;
+            var incomes = await _incomeHandler.GetByClientId(clientId);
+            return _mapper.Map(incomes); 
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutIncome(int id, Income income)
+
+        [HttpGet("{clientId}/{source}")]
+        public async Task<ActionResult<IEnumerable<IncomeViewModel>>> GetIncomes(int clientId, string source)
         {
-            if (id != income.Id)
+            try
+            {
+                var incomes = await _incomeHandler.GetByClientId(clientId, source);
+                return _mapper.Map(incomes);
+            }
+            catch (ArgumentException argumentException)
+            {
+                return BadRequest(argumentException.Message);
+            }
+        }
+
+        [HttpGet("{clientId}/{monthFrom}/{monthTo}")]
+        public async Task<ActionResult<IEnumerable<IncomeViewModel>>> GetIncomes(int clientId, DateTime monthFrom, DateTime monthTo)
+        {
+            try
+            {
+                var incomes = await _incomeHandler.GetByClientId(clientId, monthFrom, monthTo);
+                return _mapper.Map(incomes);
+            }
+            catch (ArgumentException argumentException)
+            {
+                return BadRequest(argumentException.Message);
+            }
+
+        }
+
+        [HttpGet("{clientId}/{monthFrom}/{monthTo}/{source}")]
+        public async Task<ActionResult<IEnumerable<IncomeViewModel>>> GetIncomes(int clientId, DateTime monthFrom, DateTime monthTo, string source)
+        {
+            try
+            {
+                var incomes = await _incomeHandler.GetByClientId(clientId, monthFrom, monthTo, source);
+                return _mapper.Map(incomes);
+            }
+            catch (ArgumentException argumentException)
+            {
+                return BadRequest(argumentException.Message);
+            }
+
+        }
+
+        [HttpPut("{clientId}/{id}")]
+        public async Task<IActionResult> PutIncome(int clientId, int id, [FromBody]IncomeViewModel incomeViewModel)
+        {
+            if (id != incomeViewModel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(income).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var income = _mapper.MapBack(incomeViewModel);
+                await _incomeHandler.Update(income, clientId, incomeViewModel.SourceName);
             }
-            catch (DbUpdateConcurrencyException)
+            catch(ArgumentException argumentException)
             {
-                if (!IncomeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(argumentException.Message);
             }
-
+            
             return NoContent();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Income>> PostIncome(Income income)
+        [HttpPost("{clientId}")]
+        public async Task<ActionResult<Income>> PostIncome([FromBody]IncomeViewModel incomeViewModel, int clientId)
         {
-            _context.Incomes.Add(income);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _incomeHandler.Add(_mapper.MapBack(incomeViewModel), clientId, incomeViewModel.SourceName);
+            }
+            catch (ArgumentException argumentException)
+            {
+                return BadRequest(argumentException.Message);
+            }
 
-            return CreatedAtAction("GetIncome", new { clientId = income.Id }, income);
+
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Income>> DeleteIncome(int id)
         {
-            var income = await _context.Incomes.FindAsync(id);
-            if (income == null)
+            try
             {
-                return NotFound();
+                await _incomeHandler.Delete(id);
+            }
+            catch (ArgumentException argumentException)
+            {
+                return BadRequest(argumentException.Message);
             }
 
-            _context.Incomes.Remove(income);
-            await _context.SaveChangesAsync();
-
-            return income;
-        }
-
-        private bool IncomeExists(int id)
-        {
-            return _context.Incomes.Any(e => e.Id == id);
+            return NoContent();
         }
     }
 }

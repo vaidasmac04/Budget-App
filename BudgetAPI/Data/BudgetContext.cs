@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using BudgetProject.Models;
-using BudgetAPI.Models.DbEntities;
-using BudgetProject.Models.DbEntities;
 using BudgetAPI.Extensions;
+using BudgetAPI.Models;
 
 namespace BudgetAPI.Data
 {

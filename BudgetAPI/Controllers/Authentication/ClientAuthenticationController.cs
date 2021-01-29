@@ -7,16 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using BudgetAPI.Helpers;
 using BudgetAPI.Models;
-using BudgetAPI.Models.Authentication;
 using BudgetAPI.Services;
-using BudgetProject.Models;
-using BudgetProject.Models.DbEntities;
+using BudgetAPI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BudgetAPI.Controllers.Login
+namespace BudgetAPI.Controllers.Authentication
 {
     [Authorize]
     [Route("api/Authentication")]
@@ -36,7 +34,7 @@ namespace BudgetAPI.Controllers.Login
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] LoginModel model)
+        public IActionResult Authenticate([FromBody] LoginViewModel model)
         {
             var client = _clientAuthentication.Authenticate(model.Username, model.Password);
 
@@ -69,7 +67,7 @@ namespace BudgetAPI.Controllers.Login
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterModel model)
+        public IActionResult Register([FromBody] RegisterViewModel model)
         {
             Client client = new Client
             {

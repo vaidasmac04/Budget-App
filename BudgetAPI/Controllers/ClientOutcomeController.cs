@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BudgetAPI.Data;
-using BudgetProject.Models;
+using BudgetAPI.Models;
 
 namespace BudgetAPI.Controllers
 {

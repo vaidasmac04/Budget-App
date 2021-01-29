@@ -1,6 +1,5 @@
 ﻿using BudgetAPI.Data;
-using BudgetProject.Models;
-using BudgetProject.Models.DbEntities;
+using BudgetAPI.Models;
 using System;
 using System.Linq;
 

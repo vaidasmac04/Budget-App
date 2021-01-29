@@ -1,8 +1,6 @@
-﻿using BudgetAPI.Models.DbEntities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-
-namespace BudgetProject.Models.DbEntities
+namespace BudgetAPI.Models
 {
     public class Client
     {

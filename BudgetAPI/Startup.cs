@@ -1,10 +1,12 @@
 ﻿using BudgetAPI.Data;
 using BudgetAPI.Data.Seeder;
-using BudgetAPI.Extensions;
 using BudgetAPI.Helpers;
+using BudgetAPI.Mapping;
+using BudgetAPI.Models;
 using BudgetAPI.Services;
+using BudgetAPI.Services.Incomes;
+using BudgetAPI.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BudgetProject
+namespace BudgetAPI
 {
     public class Startup
     {
@@ -99,6 +101,8 @@ namespace BudgetProject
             services.AddTransient<ISeeder, Seeder>();
             services.AddTransient<IParser, CSVParser>();
             services.AddTransient<IDeleter, Deleter>();
+            services.AddTransient<IIncomeHandler, IncomeHandler>();
+            services.AddTransient<IEntityMapper<Income, IncomeViewModel>, IncomeMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

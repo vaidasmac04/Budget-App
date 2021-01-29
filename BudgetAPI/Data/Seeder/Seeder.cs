@@ -1,11 +1,5 @@
-﻿using BudgetAPI.Models.DbEntities;
-using BudgetProject.Models;
-using BudgetProject.Models.DbEntities;
+﻿using BudgetAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BudgetAPI.Data.Seeder
 {
@@ -47,39 +41,6 @@ namespace BudgetAPI.Data.Seeder
 
             var outcomes = parser.Parse<Outcome>(CSVFiles.OUTCOMES);
             modelBuilder.Entity<Outcome>().HasData(outcomes);
-
-        }
-
-        public void Seed()
-        {
-            Parser parser = new Parser(_parser);
-
-            var clients = parser.Parse<Client>(CSVFiles.CLIENTS);
-           
-
-            var categories = parser.Parse<Category>(CSVFiles.CATEGORIES);
-            
-
-            var items = parser.Parse<Item>(CSVFiles.ITEMS);
-            
-
-            var sources = parser.Parse<Source>(CSVFiles.SOURCES);
-            
-
-            var clientCategories = parser.Parse<ClientCategory>(CSVFiles.CLIENT_CATEGORIES);
-            
-
-            var clientSources = parser.Parse<ClientSource>(CSVFiles.CLIENT_SOURCES);
-           
-
-            var clientItems = parser.Parse<ClientItem>(CSVFiles.CLIENT_ITEMS);
-            
-
-            var incomes = parser.Parse<Income>(CSVFiles.INCOMES);
-           
-
-            var outcomes = parser.Parse<Outcome>(CSVFiles.OUTCOMES);
-           
 
         }
     }
