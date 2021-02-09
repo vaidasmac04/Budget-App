@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BudgetAPI.ViewModels
+namespace BudgetAPI.DTOs
 {
-    public class LoginViewModel
+    public class LoginDTO
     {
         [Required]
         public string Username { get; set; }

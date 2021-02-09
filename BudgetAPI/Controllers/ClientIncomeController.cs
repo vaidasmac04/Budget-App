@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using BudgetAPI.Services.Incomes;
 using BudgetAPI.Models;
-using BudgetAPI.ViewModels;
+using BudgetAPI.DTOs;
 using BudgetAPI.Mapping;
 
 namespace BudgetAPI.Controllers
@@ -16,17 +16,17 @@ namespace BudgetAPI.Controllers
     public class ClientIncomeController : ControllerBase
     {
         private readonly IIncomeHandler _incomeHandler;
-        private readonly IEntityMapper<Income, IncomeViewModel> _mapper;
+        private readonly IEntityMapper<Income, IncomeDTO> _mapper;
 
         public ClientIncomeController(IIncomeHandler incomeHandler,
-            IEntityMapper<Income, IncomeViewModel> mapper)
+            IEntityMapper<Income, IncomeDTO> mapper)
         {
             _incomeHandler = incomeHandler;
             _mapper = mapper;
         }
 
         [HttpGet("{clientId}")]
-        public async Task<ActionResult<IEnumerable<IncomeViewModel>>> GetIncomes(int clientId)
+        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int clientId)
         {
 
             var incomes = await _incomeHandler.GetByClientId(clientId);
@@ -35,7 +35,7 @@ namespace BudgetAPI.Controllers
 
 
         [HttpGet("{clientId}/{source}")]
-        public async Task<ActionResult<IEnumerable<IncomeViewModel>>> GetIncomes(int clientId, string source)
+        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int clientId, string source)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace BudgetAPI.Controllers
         }
 
         [HttpGet("{clientId}/{monthFrom}/{monthTo}")]
-        public async Task<ActionResult<IEnumerable<IncomeViewModel>>> GetIncomes(int clientId, DateTime monthFrom, DateTime monthTo)
+        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int clientId, DateTime monthFrom, DateTime monthTo)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace BudgetAPI.Controllers
         }
 
         [HttpGet("{clientId}/{monthFrom}/{monthTo}/{source}")]
-        public async Task<ActionResult<IEnumerable<IncomeViewModel>>> GetIncomes(int clientId, DateTime monthFrom, DateTime monthTo, string source)
+        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int clientId, DateTime monthFrom, DateTime monthTo, string source)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace BudgetAPI.Controllers
         }
 
         [HttpPut("{clientId}/{id}")]
-        public async Task<IActionResult> PutIncome(int clientId, int id, [FromBody]IncomeViewModel incomeViewModel)
+        public async Task<IActionResult> PutIncome(int clientId, int id, [FromBody]IncomeDTO incomeViewModel)
         {
             if (id != incomeViewModel.Id)
             {
@@ -100,7 +100,7 @@ namespace BudgetAPI.Controllers
         }
 
         [HttpPost("{clientId}")]
-        public async Task<ActionResult<Income>> PostIncome([FromBody]IncomeViewModel incomeViewModel, int clientId)
+        public async Task<ActionResult<Income>> PostIncome([FromBody]IncomeDTO incomeViewModel, int clientId)
         {
             try
             {

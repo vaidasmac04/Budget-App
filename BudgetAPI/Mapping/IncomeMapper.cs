@@ -1,5 +1,5 @@
 ﻿using BudgetAPI.Models;
-using BudgetAPI.ViewModels;
+using BudgetAPI.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace BudgetAPI.Mapping
 {
-    public class IncomeMapper : IEntityMapper<Income, IncomeViewModel>
+    public class IncomeMapper : IEntityMapper<Income, IncomeDTO>
     {
-        public IncomeViewModel Map(Income i)
+        public IncomeDTO Map(Income i)
         {
-            return new IncomeViewModel
+            return new IncomeDTO
             {
                 Id = i.Id,
                 Value = i.Value,
@@ -20,13 +20,13 @@ namespace BudgetAPI.Mapping
             };
         }
 
-        public List<IncomeViewModel> Map(List<Income> i)
+        public List<IncomeDTO> Map(List<Income> i)
         {
-            List<IncomeViewModel> incomeViewModels = new List<IncomeViewModel>();
+            List<IncomeDTO> incomeViewModels = new List<IncomeDTO>();
 
             foreach(Income income in i)
             {
-                incomeViewModels.Add(new IncomeViewModel
+                incomeViewModels.Add(new IncomeDTO
                 {
                     Id = income.Id,
                     Value = income.Value,
@@ -38,7 +38,7 @@ namespace BudgetAPI.Mapping
             return incomeViewModels;
         }
 
-        public Income MapBack(IncomeViewModel o)
+        public Income MapBack(IncomeDTO o)
         {
             return new Income
             {
@@ -48,11 +48,11 @@ namespace BudgetAPI.Mapping
             };
         }
 
-        public List<Income> MapBack(List<IncomeViewModel> o)
+        public List<Income> MapBack(List<IncomeDTO> o)
         {
             List<Income> incomes = new List<Income>();
 
-            foreach (IncomeViewModel incomeViewModel in o)
+            foreach (IncomeDTO incomeViewModel in o)
             {
                 incomes.Add(new Income
                 {

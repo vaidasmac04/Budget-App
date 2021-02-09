@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BudgetAPI.ViewModels
+namespace BudgetAPI.DTOs
 {
-    public class RegisterViewModel
+    public class ClientDTO
     {
-        [Required]
+        public int Id { get; set; }
         public string FirstName { get; set; }
-
-        [Required]
         public string LastName { get; set; }
-
-        [Required]
         public string Username { get; set; }
-
-        [Required]
-        public string Password { get; set; }
     }
 }
