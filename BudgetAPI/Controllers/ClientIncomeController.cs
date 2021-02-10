@@ -7,6 +7,8 @@ using BudgetAPI.Services.Incomes;
 using BudgetAPI.Models;
 using BudgetAPI.DTOs;
 using BudgetAPI.Mapping;
+using AutoMapper;
+using System.Linq;
 
 namespace BudgetAPI.Controllers
 {
@@ -16,10 +18,9 @@ namespace BudgetAPI.Controllers
     public class ClientIncomeController : ControllerBase
     {
         private readonly IIncomeHandler _incomeHandler;
-        private readonly IEntityMapper<Income, IncomeDTO> _mapper;
+        private readonly IMapper _mapper;
 
-        public ClientIncomeController(IIncomeHandler incomeHandler,
-            IEntityMapper<Income, IncomeDTO> mapper)
+        public ClientIncomeController(IIncomeHandler incomeHandler, IMapper mapper)
         {
             _incomeHandler = incomeHandler;
             _mapper = mapper;
@@ -28,9 +29,8 @@ namespace BudgetAPI.Controllers
         [HttpGet("{clientId}")]
         public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int clientId)
         {
-
             var incomes = await _incomeHandler.GetByClientId(clientId);
-            return _mapper.Map(incomes); 
+            return _mapper.Map<List<IncomeDTO>>(incomes);
         }
 
 
@@ -40,7 +40,7 @@ namespace BudgetAPI.Controllers
             try
             {
                 var incomes = await _incomeHandler.GetByClientId(clientId, source);
-                return _mapper.Map(incomes);
+                return _mapper.Map<List<IncomeDTO>>(incomes);
             }
             catch (ArgumentException argumentException)
             {
@@ -54,7 +54,7 @@ namespace BudgetAPI.Controllers
             try
             {
                 var incomes = await _incomeHandler.GetByClientId(clientId, monthFrom, monthTo);
-                return _mapper.Map(incomes);
+                return _mapper.Map<List<IncomeDTO>>(incomes);
             }
             catch (ArgumentException argumentException)
             {
@@ -69,7 +69,7 @@ namespace BudgetAPI.Controllers
             try
             {
                 var incomes = await _incomeHandler.GetByClientId(clientId, monthFrom, monthTo, source);
-                return _mapper.Map(incomes);
+                return _mapper.Map<List<IncomeDTO>>(incomes);
             }
             catch (ArgumentException argumentException)
             {
@@ -79,17 +79,17 @@ namespace BudgetAPI.Controllers
         }
 
         [HttpPut("{clientId}/{id}")]
-        public async Task<IActionResult> PutIncome(int clientId, int id, [FromBody]IncomeDTO incomeViewModel)
+        public async Task<IActionResult> PutIncome(int clientId, int id, [FromBody]IncomeDTO incomeDTO)
         {
-            if (id != incomeViewModel.Id)
+            if (id != incomeDTO.Id)
             {
                 return BadRequest();
             }
 
             try
             {
-                var income = _mapper.MapBack(incomeViewModel);
-                await _incomeHandler.Update(income, clientId, incomeViewModel.SourceName);
+                var income = _mapper.Map<Income>(incomeDTO);
+                await _incomeHandler.Update(income, clientId, incomeDTO.SourceName);
             }
             catch(ArgumentException argumentException)
             {
@@ -100,11 +100,11 @@ namespace BudgetAPI.Controllers
         }
 
         [HttpPost("{clientId}")]
-        public async Task<ActionResult<Income>> PostIncome([FromBody]IncomeDTO incomeViewModel, int clientId)
+        public async Task<ActionResult<Income>> PostIncome([FromBody]IncomeDTO incomeDTO, int clientId)
         {
             try
             {
-                await _incomeHandler.Add(_mapper.MapBack(incomeViewModel), clientId, incomeViewModel.SourceName);
+                await _incomeHandler.Add(_mapper.Map<Income>(incomeDTO), clientId, incomeDTO.SourceName);
             }
             catch (ArgumentException argumentException)
             {

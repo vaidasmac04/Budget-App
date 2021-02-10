@@ -96,7 +96,11 @@ namespace BudgetAPI
             });
 
 
-            // configure DI for application services
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<IncomeProfile>();
+            });
+
             services.AddScoped<IClientAuthentication, ClientAuthentication>();
             services.AddTransient<ISeeder, Seeder>();
             services.AddTransient<IParser, CSVParser>();
