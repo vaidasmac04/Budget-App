@@ -13,33 +13,31 @@ namespace BudgetAPI.Data.Seeder
         }
         public void Seed(ModelBuilder modelBuilder)
         {
-            Parser parser = new Parser(_parser);
-
-            var clients = parser.Parse<Client>(CSVFiles.CLIENTS);
+            var clients = _parser.Parse<Client>(CSVFiles.CLIENTS);
             modelBuilder.Entity<Client>().HasData(clients);
 
-            var categories = parser.Parse<Category>(CSVFiles.CATEGORIES);
+            var categories = _parser.Parse<Category>(CSVFiles.CATEGORIES);
             modelBuilder.Entity<Category>().HasData(categories);
 
-            var items = parser.Parse<Item>(CSVFiles.ITEMS);
+            var items = _parser.Parse<Item>(CSVFiles.ITEMS);
             modelBuilder.Entity<Item>().HasData(items);
 
-            var sources = parser.Parse<Source>(CSVFiles.SOURCES);
+            var sources = _parser.Parse<Source>(CSVFiles.SOURCES);
             modelBuilder.Entity<Source>().HasData(sources);
 
-            var clientCategories = parser.Parse<ClientCategory>(CSVFiles.CLIENT_CATEGORIES);
+            var clientCategories = _parser.Parse<ClientCategory>(CSVFiles.CLIENT_CATEGORIES);
             modelBuilder.Entity<ClientCategory>().HasData(clientCategories);
 
-            var clientSources = parser.Parse<ClientSource>(CSVFiles.CLIENT_SOURCES);
+            var clientSources = _parser.Parse<ClientSource>(CSVFiles.CLIENT_SOURCES);
             modelBuilder.Entity<ClientSource>().HasData(clientSources);
 
-            var clientItems = parser.Parse<ClientItem>(CSVFiles.CLIENT_ITEMS);
+            var clientItems = _parser.Parse<ClientItem>(CSVFiles.CLIENT_ITEMS);
             modelBuilder.Entity<ClientItem>().HasData(clientItems);
 
-            var incomes = parser.Parse<Income>(CSVFiles.INCOMES);
+            var incomes = _parser.Parse<Income>(CSVFiles.INCOMES);
             modelBuilder.Entity<Income>().HasData(incomes);
 
-            var outcomes = parser.Parse<Outcome>(CSVFiles.OUTCOMES);
+            var outcomes = _parser.Parse<Outcome>(CSVFiles.OUTCOMES);
             modelBuilder.Entity<Outcome>().HasData(outcomes);
 
         }

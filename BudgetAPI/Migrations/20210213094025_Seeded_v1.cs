@@ -46,13 +46,13 @@ namespace BudgetAPI.Migrations
                 columns: new[] { "ClientId", "CategoryId" },
                 values: new object[,]
                 {
-                    { 2, 8 },
-                    { 2, 5 },
                     { 2, 3 },
                     { 1, 1 },
                     { 1, 4 },
                     { 1, 7 },
-                    { 2, 1 }
+                    { 2, 1 },
+                    { 2, 5 },
+                    { 2, 8 }
                 });
 
             migrationBuilder.InsertData(
@@ -62,8 +62,8 @@ namespace BudgetAPI.Migrations
                 {
                     { 1, 2 },
                     { 2, 3 },
-                    { 2, 1 },
-                    { 1, 1 }
+                    { 1, 1 },
+                    { 2, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -71,12 +71,12 @@ namespace BudgetAPI.Migrations
                 columns: new[] { "Id", "ClientId", "Date", "SourceId", "Value" },
                 values: new object[,]
                 {
-                    { 4, 2, new DateTime(2021, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 850.0 },
                     { 3, 1, new DateTime(2020, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 25.140000000000001 },
-                    { 6, 2, new DateTime(2020, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 4100.0 },
-                    { 1, 1, new DateTime(2021, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 500.0 },
+                    { 2, 1, new DateTime(2020, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 100.86 },
                     { 5, 2, new DateTime(2020, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 710.86000000000001 },
-                    { 2, 1, new DateTime(2020, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 100.86 }
+                    { 4, 2, new DateTime(2021, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 850.0 },
+                    { 1, 1, new DateTime(2021, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 500.0 },
+                    { 6, 2, new DateTime(2020, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 4100.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -84,12 +84,12 @@ namespace BudgetAPI.Migrations
                 columns: new[] { "Id", "CategoryId", "Name" },
                 values: new object[,]
                 {
-                    { 7, 8, "theatre" },
                     { 6, 8, "cinema" },
                     { 5, 3, "coat" },
                     { 4, 3, "sweater" },
                     { 3, 3, "jeans" },
                     { 2, 1, "oranges" },
+                    { 7, 8, "theatre" },
                     { 1, 1, "ice cream" }
                 });
 

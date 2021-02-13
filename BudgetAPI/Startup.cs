@@ -2,10 +2,8 @@
 using BudgetAPI.Data.Seeder;
 using BudgetAPI.Helpers;
 using BudgetAPI.Mapping;
-using BudgetAPI.Models;
 using BudgetAPI.Services;
 using BudgetAPI.Services.Incomes;
-using BudgetAPI.DTOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -104,9 +102,7 @@ namespace BudgetAPI
             services.AddScoped<IClientAuthentication, ClientAuthentication>();
             services.AddTransient<ISeeder, Seeder>();
             services.AddTransient<IParser, CSVParser>();
-            services.AddTransient<IDeleter, Deleter>();
             services.AddTransient<IIncomeHandler, IncomeHandler>();
-            services.AddTransient<IEntityMapper<Income, IncomeDTO>, IncomeMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

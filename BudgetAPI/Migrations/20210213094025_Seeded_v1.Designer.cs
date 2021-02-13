@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetAPI.Migrations
 {
     [DbContext(typeof(BudgetContext))]
-    [Migration("20210125205300_Seeded_v1")]
+    [Migration("20210213094025_Seeded_v1")]
     partial class Seeded_v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace BudgetAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BudgetAPI.Models.DbEntities.Category", b =>
+            modelBuilder.Entity("BudgetAPI.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,7 +78,54 @@ namespace BudgetAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BudgetAPI.Models.DbEntities.ClientCategory", b =>
+            modelBuilder.Entity("BudgetAPI.Models.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "John",
+                            LastName = "Roy",
+                            PasswordHash = new byte[] { 128, 236, 93, 244, 36, 33, 13, 12, 74, 200, 241, 199, 86, 53, 107, 238, 235, 61, 129, 50, 146, 174, 72, 249, 67, 198, 14, 61, 90, 32, 70, 35, 145, 109, 223, 254, 29, 113, 153, 42, 122, 63, 207, 95, 170, 188, 229, 196, 74, 187, 122, 245, 222, 173, 175, 96, 143, 35, 155, 251, 235, 248, 11, 76 },
+                            PasswordSalt = new byte[] { 157, 192, 15, 176, 7, 21, 230, 170, 29, 51, 101, 100, 32, 197, 74, 108, 137, 58, 210, 90, 231, 108, 148, 103, 113, 56, 242, 21, 83, 100, 74, 87, 67, 212, 191, 63, 25, 174, 72, 44, 105, 130, 225, 143, 139, 248, 29, 94, 225, 18, 196, 177, 130, 70, 132, 155, 169, 171, 41, 3, 75, 43, 189, 163, 149, 48, 113, 90, 224, 63, 192, 190, 146, 223, 125, 109, 253, 60, 139, 222, 185, 81, 242, 91, 97, 6, 10, 79, 190, 53, 248, 249, 218, 36, 49, 121, 212, 208, 55, 103, 166, 37, 104, 160, 2, 243, 54, 251, 206, 108, 125, 15, 55, 13, 200, 250, 164, 69, 17, 73, 81, 82, 127, 162, 51, 135, 14, 15 },
+                            Username = "john123"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FirstName = "Oliver",
+                            LastName = "Jake",
+                            PasswordHash = new byte[] { 146, 16, 173, 10, 171, 26, 50, 88, 71, 28, 19, 253, 100, 79, 194, 240, 135, 140, 182, 10, 110, 219, 134, 98, 17, 132, 86, 71, 18, 68, 124, 52, 145, 226, 126, 219, 245, 124, 238, 43, 223, 140, 76, 125, 155, 173, 62, 95, 44, 102, 116, 136, 60, 223, 184, 215, 131, 77, 128, 244, 181, 245, 85, 33 },
+                            PasswordSalt = new byte[] { 142, 119, 21, 150, 0, 207, 87, 93, 54, 130, 228, 206, 221, 69, 60, 72, 52, 26, 169, 127, 129, 239, 168, 123, 42, 214, 132, 130, 95, 22, 238, 159, 123, 235, 118, 20, 126, 15, 237, 105, 175, 67, 138, 52, 245, 31, 121, 244, 20, 4, 138, 89, 245, 228, 91, 159, 8, 88, 226, 194, 199, 167, 8, 196, 91, 11, 231, 198, 104, 30, 134, 34, 164, 80, 41, 160, 136, 157, 32, 12, 166, 183, 37, 156, 113, 77, 23, 98, 107, 84, 76, 25, 87, 60, 169, 107, 11, 40, 188, 34, 121, 17, 125, 82, 27, 120, 224, 223, 12, 139, 192, 149, 55, 123, 15, 243, 57, 244, 114, 111, 223, 128, 204, 91, 125, 62, 228, 96 },
+                            Username = "oliver123"
+                        });
+                });
+
+            modelBuilder.Entity("BudgetAPI.Models.ClientCategory", b =>
                 {
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
@@ -130,7 +177,7 @@ namespace BudgetAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BudgetAPI.Models.DbEntities.ClientItem", b =>
+            modelBuilder.Entity("BudgetAPI.Models.ClientItem", b =>
                 {
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
@@ -187,7 +234,7 @@ namespace BudgetAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BudgetAPI.Models.DbEntities.ClientSource", b =>
+            modelBuilder.Entity("BudgetAPI.Models.ClientSource", b =>
                 {
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
@@ -224,150 +271,7 @@ namespace BudgetAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BudgetAPI.Models.DbEntities.Item", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Items");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            Name = "ice cream"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 1,
-                            Name = "oranges"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CategoryId = 3,
-                            Name = "jeans"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryId = 3,
-                            Name = "sweater"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CategoryId = 3,
-                            Name = "coat"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CategoryId = 8,
-                            Name = "cinema"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CategoryId = 8,
-                            Name = "theatre"
-                        });
-                });
-
-            modelBuilder.Entity("BudgetAPI.Models.DbEntities.Source", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sources");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "salary"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "lottery"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "sale"
-                        });
-                });
-
-            modelBuilder.Entity("BudgetProject.Models.DbEntities.Client", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("PasswordHash")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clients");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FirstName = "John",
-                            LastName = "Roy",
-                            PasswordHash = new byte[] { 128, 236, 93, 244, 36, 33, 13, 12, 74, 200, 241, 199, 86, 53, 107, 238, 235, 61, 129, 50, 146, 174, 72, 249, 67, 198, 14, 61, 90, 32, 70, 35, 145, 109, 223, 254, 29, 113, 153, 42, 122, 63, 207, 95, 170, 188, 229, 196, 74, 187, 122, 245, 222, 173, 175, 96, 143, 35, 155, 251, 235, 248, 11, 76 },
-                            PasswordSalt = new byte[] { 157, 192, 15, 176, 7, 21, 230, 170, 29, 51, 101, 100, 32, 197, 74, 108, 137, 58, 210, 90, 231, 108, 148, 103, 113, 56, 242, 21, 83, 100, 74, 87, 67, 212, 191, 63, 25, 174, 72, 44, 105, 130, 225, 143, 139, 248, 29, 94, 225, 18, 196, 177, 130, 70, 132, 155, 169, 171, 41, 3, 75, 43, 189, 163, 149, 48, 113, 90, 224, 63, 192, 190, 146, 223, 125, 109, 253, 60, 139, 222, 185, 81, 242, 91, 97, 6, 10, 79, 190, 53, 248, 249, 218, 36, 49, 121, 212, 208, 55, 103, 166, 37, 104, 160, 2, 243, 54, 251, 206, 108, 125, 15, 55, 13, 200, 250, 164, 69, 17, 73, 81, 82, 127, 162, 51, 135, 14, 15 },
-                            Username = "john123"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            FirstName = "Oliver",
-                            LastName = "Jake",
-                            PasswordHash = new byte[] { 146, 16, 173, 10, 171, 26, 50, 88, 71, 28, 19, 253, 100, 79, 194, 240, 135, 140, 182, 10, 110, 219, 134, 98, 17, 132, 86, 71, 18, 68, 124, 52, 145, 226, 126, 219, 245, 124, 238, 43, 223, 140, 76, 125, 155, 173, 62, 95, 44, 102, 116, 136, 60, 223, 184, 215, 131, 77, 128, 244, 181, 245, 85, 33 },
-                            PasswordSalt = new byte[] { 142, 119, 21, 150, 0, 207, 87, 93, 54, 130, 228, 206, 221, 69, 60, 72, 52, 26, 169, 127, 129, 239, 168, 123, 42, 214, 132, 130, 95, 22, 238, 159, 123, 235, 118, 20, 126, 15, 237, 105, 175, 67, 138, 52, 245, 31, 121, 244, 20, 4, 138, 89, 245, 228, 91, 159, 8, 88, 226, 194, 199, 167, 8, 196, 91, 11, 231, 198, 104, 30, 134, 34, 164, 80, 41, 160, 136, 157, 32, 12, 166, 183, 37, 156, 113, 77, 23, 98, 107, 84, 76, 25, 87, 60, 169, 107, 11, 40, 188, 34, 121, 17, 125, 82, 27, 120, 224, 223, 12, 139, 192, 149, 55, 123, 15, 243, 57, 244, 114, 111, 223, 128, 204, 91, 125, 62, 228, 96 },
-                            Username = "oliver123"
-                        });
-                });
-
-            modelBuilder.Entity("BudgetProject.Models.Income", b =>
+            modelBuilder.Entity("BudgetAPI.Models.Income", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -445,7 +349,71 @@ namespace BudgetAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BudgetProject.Models.Outcome", b =>
+            modelBuilder.Entity("BudgetAPI.Models.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Items");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Name = "ice cream"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Name = "oranges"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            Name = "jeans"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 3,
+                            Name = "sweater"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 3,
+                            Name = "coat"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 8,
+                            Name = "cinema"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 8,
+                            Name = "theatre"
+                        });
+                });
+
+            modelBuilder.Entity("BudgetAPI.Models.Outcome", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -507,84 +475,116 @@ namespace BudgetAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BudgetAPI.Models.DbEntities.ClientCategory", b =>
+            modelBuilder.Entity("BudgetAPI.Models.Source", b =>
                 {
-                    b.HasOne("BudgetAPI.Models.DbEntities.Category", "Category")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sources");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "salary"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "lottery"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "sale"
+                        });
+                });
+
+            modelBuilder.Entity("BudgetAPI.Models.ClientCategory", b =>
+                {
+                    b.HasOne("BudgetAPI.Models.Category", "Category")
                         .WithMany("ClientCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BudgetProject.Models.DbEntities.Client", "Client")
+                    b.HasOne("BudgetAPI.Models.Client", "Client")
                         .WithMany("ClientCategories")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BudgetAPI.Models.DbEntities.ClientItem", b =>
+            modelBuilder.Entity("BudgetAPI.Models.ClientItem", b =>
                 {
-                    b.HasOne("BudgetProject.Models.DbEntities.Client", "Client")
+                    b.HasOne("BudgetAPI.Models.Client", "Client")
                         .WithMany("ClientItems")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BudgetAPI.Models.DbEntities.Item", "Item")
+                    b.HasOne("BudgetAPI.Models.Item", "Item")
                         .WithMany("ClientItems")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BudgetAPI.Models.DbEntities.ClientSource", b =>
+            modelBuilder.Entity("BudgetAPI.Models.ClientSource", b =>
                 {
-                    b.HasOne("BudgetProject.Models.DbEntities.Client", "Client")
+                    b.HasOne("BudgetAPI.Models.Client", "Client")
                         .WithMany("ClientSources")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BudgetAPI.Models.DbEntities.Source", "Source")
+                    b.HasOne("BudgetAPI.Models.Source", "Source")
                         .WithMany("ClientSources")
                         .HasForeignKey("SourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BudgetAPI.Models.DbEntities.Item", b =>
+            modelBuilder.Entity("BudgetAPI.Models.Income", b =>
                 {
-                    b.HasOne("BudgetAPI.Models.DbEntities.Category", "Category")
+                    b.HasOne("BudgetAPI.Models.Client", "Client")
+                        .WithMany("Incomes")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BudgetAPI.Models.Source", "Source")
+                        .WithMany()
+                        .HasForeignKey("SourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BudgetAPI.Models.Item", b =>
+                {
+                    b.HasOne("BudgetAPI.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BudgetProject.Models.Income", b =>
+            modelBuilder.Entity("BudgetAPI.Models.Outcome", b =>
                 {
-                    b.HasOne("BudgetProject.Models.DbEntities.Client", "Client")
-                        .WithMany("Incomes")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BudgetAPI.Models.DbEntities.Source", "Source")
-                        .WithMany()
-                        .HasForeignKey("SourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BudgetProject.Models.Outcome", b =>
-                {
-                    b.HasOne("BudgetProject.Models.DbEntities.Client", "Client")
+                    b.HasOne("BudgetAPI.Models.Client", "Client")
                         .WithMany("Outcomes")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BudgetAPI.Models.DbEntities.Item", "Item")
+                    b.HasOne("BudgetAPI.Models.Item", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
