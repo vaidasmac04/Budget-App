@@ -1,4 +1,5 @@
-﻿using BudgetAPI.Models;
+﻿
+using Budget.Domain;
 
 namespace BudgetAPI.Services
 {

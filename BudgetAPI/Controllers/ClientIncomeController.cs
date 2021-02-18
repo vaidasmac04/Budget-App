@@ -4,33 +4,33 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using BudgetAPI.Services.Incomes;
-using BudgetAPI.Models;
-using BudgetAPI.DTOs;
-using BudgetAPI.Mapping;
 using AutoMapper;
-using System.Linq;
+using MediatR;
+using Budget.Application.Incomes;
+using Budget.Domain;
 
 namespace BudgetAPI.Controllers
 {
-    [Route("api/Income")]
+    [Route("api/income")]
     [ApiController]
     [Authorize]
     public class ClientIncomeController : ControllerBase
     {
         private readonly IIncomeHandler _incomeHandler;
         private readonly IMapper _mapper;
+        private IMediator _mediator;
 
-        public ClientIncomeController(IIncomeHandler incomeHandler, IMapper mapper)
+        public ClientIncomeController(IIncomeHandler incomeHandler, IMapper mapper, IMediator mediator)
         {
             _incomeHandler = incomeHandler;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         [HttpGet("{clientId}")]
         public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int clientId)
         {
-            var incomes = await _incomeHandler.GetByClientId(clientId);
-            return _mapper.Map<List<IncomeDTO>>(incomes);
+            return await _mediator.Send(new GetAllQuery.Query { ClientId = clientId });
         }
 
 
