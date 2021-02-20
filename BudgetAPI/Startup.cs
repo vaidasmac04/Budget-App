@@ -104,6 +104,7 @@ namespace BudgetAPI
             services.AddMediatR(typeof(GetAllQuery.Handler).Assembly);
             services.AddScoped<IClientAuthentication, ClientAuthentication>();
             services.AddTransient<IIncomeHandler, IncomeHandler>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
