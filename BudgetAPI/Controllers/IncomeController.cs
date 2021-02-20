@@ -25,10 +25,10 @@ namespace BudgetAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{clientId}")]
-        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int clientId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes()
         {
-            return await _mediator.Send(new GetAllQuery.Query { ClientId = clientId });
+            return await _mediator.Send(new GetIncomesQuery());
         }
 
 

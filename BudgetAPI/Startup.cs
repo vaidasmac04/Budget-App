@@ -1,5 +1,7 @@
 ﻿using Budget.Application;
 using Budget.Application.Incomes;
+using Budget.Application.Interfaces;
+using Budget.Infrastructure.Services;
 using Budget.Persistence;
 using Budget.Persistence.Seeder;
 using BudgetAPI.Helpers;
@@ -101,9 +103,10 @@ namespace BudgetAPI
                 cfg.AddProfile<IncomeProfile>();
             });
 
-            services.AddMediatR(typeof(GetAllQuery.Handler).Assembly);
+            services.AddMediatR(typeof(GetIncomesQueryHandler).Assembly);
             services.AddScoped<IClientAuthentication, ClientAuthentication>();
             services.AddTransient<IIncomeHandler, IncomeHandler>();
+            services.AddTransient<IUserAccessor, UserAccessor>();
             services.AddHttpContextAccessor();
         }
 

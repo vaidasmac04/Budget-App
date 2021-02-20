@@ -19,7 +19,7 @@ namespace Budget.Infrastructure.Services
         public int GetId()
         {
             return int.Parse(_httpContextAccessor.HttpContext.User.Claims
-                        .First(i => i.Type == ClaimTypes.NameIdentifier).Value);
+                        .First(i => i.Type == ClaimTypes.Name).Value);
         }
     }
 }
