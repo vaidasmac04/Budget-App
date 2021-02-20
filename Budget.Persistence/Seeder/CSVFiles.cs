@@ -11,7 +11,7 @@ namespace Budget.Persistence.Seeder
     {
         public static string PATH = Path
             .GetDirectoryName(Assembly
-                .GetExecutingAssembly().Location) + @"\Data\Seeder\";
+                .GetExecutingAssembly().Location) + @"\Seeder\";
 
         public static string CLIENTS = PATH + "clients.csv";
         public static string CLIENT_CATEGORIES = PATH + "client_categories.csv";

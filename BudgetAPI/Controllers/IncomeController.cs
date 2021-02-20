@@ -11,16 +11,14 @@ using Budget.Domain;
 
 namespace BudgetAPI.Controllers
 {
-    [Route("api/income")]
-    [ApiController]
     [Authorize]
-    public class ClientIncomeController : ControllerBase
+    public class IncomeController : ApiControllerBase
     {
         private readonly IIncomeHandler _incomeHandler;
         private readonly IMapper _mapper;
         private IMediator _mediator;
 
-        public ClientIncomeController(IIncomeHandler incomeHandler, IMapper mapper, IMediator mediator)
+        public IncomeController(IIncomeHandler incomeHandler, IMapper mapper, IMediator mediator)
         {
             _incomeHandler = incomeHandler;
             _mapper = mapper;
