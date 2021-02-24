@@ -14,7 +14,7 @@ namespace Budget.Application.Incomes
 {
     public class GetIncomesQuery : IRequest<List<IncomeDTO>>
     {
-
+        public GetIncomesQueryParam Param { get; set; }
     }
 
     public class GetIncomesQueryHandler : IRequestHandler<GetIncomesQuery, List<IncomeDTO>>
@@ -32,13 +32,28 @@ namespace Budget.Application.Incomes
 
         public async Task<List<IncomeDTO>> Handle(GetIncomesQuery request, CancellationToken cancellationToken)
         {
-            int id = _userAccessor.GetId();
-            var incomes = await _context.Incomes
-                .Where(i => i.ClientId == _userAccessor.GetId())
-                .Include(i => i.Source)
-                .ToListAsync();
+            bool isFilterByDate = request.Param.DateFrom.HasValue && request.Param.DateTo.HasValue;
+            
+            if (isFilterByDate && request.Param.DateFrom > request.Param.DateTo)
+            {
+                throw new ArgumentException("End date can't be earlier that start date");
+            }
 
-            return _mapper.Map<List<IncomeDTO>>(incomes);
+            var incomes = _context.Incomes
+            .Where(i => i.ClientId == _userAccessor.GetId())
+            .Include(i => i.Source).AsQueryable();
+
+            if (!string.IsNullOrEmpty(request.Param.Source))
+            {
+                incomes = incomes.Where(i => i.Source.Name == request.Param.Source);
+            }
+
+            if(isFilterByDate)
+            { 
+                incomes = incomes.Where(i => i.Date >= request.Param.DateFrom && i.Date <= request.Param.DateTo);
+            }
+
+            return _mapper.Map<List<IncomeDTO>>(await incomes.ToListAsync());
         }
     }
 }

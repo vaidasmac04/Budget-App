@@ -16,7 +16,7 @@ namespace BudgetAPI.Controllers
     {
         private readonly IIncomeHandler _incomeHandler;
         private readonly IMapper _mapper;
-        private IMediator _mediator;
+        private readonly IMediator _mediator;
 
         public IncomeController(IIncomeHandler incomeHandler, IMapper mapper, IMediator mediator)
         {
@@ -26,54 +26,16 @@ namespace BudgetAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes()
-        {
-            return await _mediator.Send(new GetIncomesQuery());
-        }
-
-
-        [HttpGet("{clientId}/{source}")]
-        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int clientId, string source)
+        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes([FromQuery]GetIncomesQueryParam param)
         {
             try
             {
-                var incomes = await _incomeHandler.GetByClientId(clientId, source);
-                return _mapper.Map<List<IncomeDTO>>(incomes);
+                return await _mediator.Send(new GetIncomesQuery() { Param = param });
             }
-            catch (ArgumentException argumentException)
+            catch(Exception e)
             {
-                return BadRequest(argumentException.Message);
+                return BadRequest(e.Message);
             }
-        }
-
-        [HttpGet("{clientId}/{monthFrom}/{monthTo}")]
-        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int clientId, DateTime monthFrom, DateTime monthTo)
-        {
-            try
-            {
-                var incomes = await _incomeHandler.GetByClientId(clientId, monthFrom, monthTo);
-                return _mapper.Map<List<IncomeDTO>>(incomes);
-            }
-            catch (ArgumentException argumentException)
-            {
-                return BadRequest(argumentException.Message);
-            }
-
-        }
-
-        [HttpGet("{clientId}/{monthFrom}/{monthTo}/{source}")]
-        public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomes(int clientId, DateTime monthFrom, DateTime monthTo, string source)
-        {
-            try
-            {
-                var incomes = await _incomeHandler.GetByClientId(clientId, monthFrom, monthTo, source);
-                return _mapper.Map<List<IncomeDTO>>(incomes);
-            }
-            catch (ArgumentException argumentException)
-            {
-                return BadRequest(argumentException.Message);
-            }
-
         }
 
         [HttpPut("{clientId}/{id}")]
