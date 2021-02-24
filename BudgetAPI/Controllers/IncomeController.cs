@@ -11,7 +11,7 @@ using Budget.Domain;
 
 namespace BudgetAPI.Controllers
 {
-    [Authorize]
+    
     public class IncomeController : ApiControllerBase
     {
         private readonly IIncomeHandler _incomeHandler;
@@ -30,12 +30,25 @@ namespace BudgetAPI.Controllers
         {
             try
             {
-                return await _mediator.Send(new GetIncomesQuery() { Param = param });
+                return await _mediator.Send(new GetIncomesQuery { Param = param });
             }
             catch(Exception e)
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IncomeDTO>> GetIncome(int id)
+        {
+            var income = await _mediator.Send(new GetIncomeQuery { Id = id });
+
+            if(income == null)
+            {
+                return NotFound();
+            }
+
+            return income;
         }
 
         [HttpPut("{clientId}/{id}")]

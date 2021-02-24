@@ -40,8 +40,8 @@ namespace Budget.Application.Incomes
             }
 
             var incomes = _context.Incomes
-            .Where(i => i.ClientId == _userAccessor.GetId())
-            .Include(i => i.Source).AsQueryable();
+                .Where(i => i.ClientId == _userAccessor.GetId())
+                .Include(i => i.Source).AsQueryable();
 
             if (!string.IsNullOrEmpty(request.Param.Source))
             {
