@@ -103,7 +103,7 @@ namespace BudgetAPI
                 cfg.AddProfile<IncomeProfile>();
             });
 
-            services.AddMediatR(typeof(GetIncomesQueryHandler).Assembly);
+            services.AddMediatR(typeof(GetIncomesQuery).Assembly);
             services.AddScoped<IClientAuthentication, ClientAuthentication>();
             services.AddTransient<IIncomeHandler, IncomeHandler>();
             services.AddTransient<IUserAccessor, UserAccessor>();
