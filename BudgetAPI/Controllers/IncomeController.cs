@@ -7,10 +7,11 @@ using AutoMapper;
 using MediatR;
 using Budget.Application.Incomes;
 using Budget.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetAPI.Controllers
 {
-    
+    [Authorize]
     public class IncomeController : ApiControllerBase
     {
         private readonly IIncomeHandler _incomeHandler;
@@ -71,19 +72,10 @@ namespace BudgetAPI.Controllers
             return NoContent();
         }
 
-        [HttpPost("{clientId}")]
-        public async Task<ActionResult<Income>> PostIncome([FromBody]IncomeDTO incomeDTO, int clientId)
+        [HttpPost]
+        public async Task<ActionResult<Income>> PostIncome([FromBody]IncomeDTO incomeDTO)
         {
-            try
-            {
-                await _incomeHandler.Add(_mapper.Map<Income>(incomeDTO), clientId, incomeDTO.SourceName);
-            }
-            catch (ArgumentException argumentException)
-            {
-                return BadRequest(argumentException.Message);
-            }
-
-
+            await _mediator.Send(new CreateIncomeCommand { IncomeDTO = incomeDTO });
             return Ok();
         }
 

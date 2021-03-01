@@ -1,4 +1,5 @@
 ﻿using Budget.Application;
+using Budget.Application.Extensions;
 using Budget.Application.Incomes;
 using Budget.Application.Interfaces;
 using Budget.Infrastructure.Services;
@@ -97,13 +98,8 @@ namespace BudgetAPI
                 };
             });
 
+            services.AddApplication();
 
-            services.AddAutoMapper(cfg =>
-            {
-                cfg.AddProfile<IncomeProfile>();
-            });
-
-            services.AddMediatR(typeof(GetIncomesQuery).Assembly);
             services.AddScoped<IClientAuthentication, ClientAuthentication>();
             services.AddTransient<IIncomeHandler, IncomeHandler>();
             services.AddTransient<IUserAccessor, UserAccessor>();

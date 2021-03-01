@@ -10,7 +10,7 @@ namespace BudgetAPI.Services.Incomes
 {
     public class IncomeHandler : IIncomeHandler
     {
-        private BudgetContext _context;
+        private readonly BudgetContext _context;
         public IncomeHandler(BudgetContext context)
         {
             _context = context;
