@@ -51,8 +51,8 @@ namespace BudgetAPI.Controllers
             return income;
         }
 
-        [HttpPut("{clientId}/{id}")]
-        public async Task<IActionResult> PutIncome(int clientId, int id, [FromBody]IncomeDTO incomeDTO)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutIncome(int id, [FromBody]IncomeDTO incomeDTO)
         {
             if (id != incomeDTO.Id)
             {
@@ -61,15 +61,13 @@ namespace BudgetAPI.Controllers
 
             try
             {
-                var income = _mapper.Map<Income>(incomeDTO);
-                await _incomeHandler.Update(income, clientId, incomeDTO.SourceName);
+                await _mediator.Send(new UpdateIncomeCommand { IncomeDTO = incomeDTO });
+                return Ok();
             }
             catch(ArgumentException argumentException)
             {
                 return BadRequest(argumentException.Message);
             }
-            
-            return NoContent();
         }
 
         [HttpPost]

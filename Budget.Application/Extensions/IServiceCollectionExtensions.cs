@@ -20,6 +20,7 @@ namespace Budget.Application.Extensions
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient<IValidator<IncomeDTO>, IncomeDTOValidator>();
             services.AddTransient<IIncomeAdder, IncomeAdder>();
+            services.AddTransient<IIncomeUpdater, IncomeUpdater>();
             services.AddTransient<ISourceResolver, SourceResolver>();
             services.AddTransient<IClientSourceResolver, ClientSourceResolver>();
 
