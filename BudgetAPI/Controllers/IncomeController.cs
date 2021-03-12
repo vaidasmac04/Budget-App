@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using BudgetAPI.Services.Incomes;
 using AutoMapper;
 using MediatR;
 using Budget.Application.Incomes;
@@ -14,14 +13,10 @@ namespace BudgetAPI.Controllers
     [Authorize]
     public class IncomeController : ApiControllerBase
     {
-        private readonly IIncomeHandler _incomeHandler;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public IncomeController(IIncomeHandler incomeHandler, IMapper mapper, IMediator mediator)
+        public IncomeController(IMapper mapper, IMediator mediator)
         {
-            _incomeHandler = incomeHandler;
-            _mapper = mapper;
             _mediator = mediator;
         }
 
@@ -82,7 +77,7 @@ namespace BudgetAPI.Controllers
         {
             try
             {
-                await _incomeHandler.Delete(id);
+                await _mediator.Send(new DeleteIncomeCommand { Id = id });
             }
             catch (ArgumentException argumentException)
             {

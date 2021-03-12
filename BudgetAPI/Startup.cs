@@ -7,7 +7,6 @@ using Budget.Persistence;
 using Budget.Persistence.Seeder;
 using BudgetAPI.Helpers;
 using BudgetAPI.Services;
-using BudgetAPI.Services.Incomes;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -101,7 +100,6 @@ namespace BudgetAPI
             services.AddApplication();
 
             services.AddScoped<IClientAuthentication, ClientAuthentication>();
-            services.AddTransient<IIncomeHandler, IncomeHandler>();
             services.AddTransient<IUserAccessor, UserAccessor>();
             services.AddHttpContextAccessor();
         }
