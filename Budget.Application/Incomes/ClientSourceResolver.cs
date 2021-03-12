@@ -13,28 +13,26 @@ namespace Budget.Application.Incomes
     public class ClientSourceResolver : IClientSourceResolver
     {
         private readonly BudgetContext _context;
-        private readonly IUserAccessor _userAccessor;
 
-        public ClientSourceResolver(BudgetContext context, IUserAccessor userAccessor)
+        public ClientSourceResolver(BudgetContext context)
         {
             _context = context;
-            _userAccessor = userAccessor;
         }
 
-        public async Task Resolve(int sourceId)
+        public async Task<ClientSource> Resolve(int clientId, int sourceId)
         {
-            int clientId = _userAccessor.GetId();
+            ClientSource clientSource = null;
 
             if (!await Exists(clientId, sourceId))
             {
-                _context.Add(new ClientSource
+                clientSource = new ClientSource
                 {
                     ClientId = clientId,
                     SourceId = sourceId
-                });
-
-                await _context.SaveChangesAsync();
+                };
             }
+
+            return clientSource;
         }
 
         private async Task<bool> Exists(int clientId, int sourceId)
@@ -44,3 +42,4 @@ namespace Budget.Application.Incomes
         }
     }
 }
+

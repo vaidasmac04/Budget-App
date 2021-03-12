@@ -20,33 +20,23 @@ namespace Budget.Application.Incomes
             _clientSourceResolver = clientSourceResolver;
         }
 
-        public async Task<int> Resolve(string name)
+        public async Task<Source> Resolve(string name)
         {
-            int sourceId = await FindIdByName(name);
+            Source source = await FindSourceByName(name);
 
-            //need to add new source
-            if (sourceId == -1)
+            if(source == null)
             {
-                var added = _context.Add(new Source { Name = name });
-                await _context.SaveChangesAsync();
-                sourceId = added.Entity.Id;
+                source = new Source { Name = name };
             }
 
-            await _clientSourceResolver.Resolve(sourceId);
-
-            return sourceId;
+            return source;
         }
 
-        private async Task<int> FindIdByName(string name)
+        private async Task<Source> FindSourceByName(string name)
         {
-            if (await _context.Sources.AnyAsync(s => s.Name.ToLower() == name))
-            {
-                return await _context.Sources
-                    .Where(s => s.Name.ToLower() == name)
-                    .Select(s => s.Id).FirstAsync();
-            }
-
-            return -1;
+            return await _context.Sources
+                .Where(s => s.Name.ToLower() == name)
+                .FirstOrDefaultAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Budget.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Budget.Application.Incomes
 {
     public interface ISourceResolver
     {
-        Task<int> Resolve(string name);
+        Task<Source> Resolve(string name);
     }
 }

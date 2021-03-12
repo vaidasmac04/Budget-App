@@ -13,32 +13,32 @@ namespace Budget.Application.Incomes
     {
         private readonly BudgetContext _context;
         private readonly ISourceResolver _sourceResolver;
+        private readonly IClientSourceResolver _clientSourceResolver;
         private readonly IUserAccessor _userAccessor;
 
         public IncomeAdder(BudgetContext context, ISourceResolver sourceResolver, 
-            IUserAccessor userAccessor)
+            IClientSourceResolver clientSourceReolver, IUserAccessor userAccessor)
         {
             _context = context;
             _sourceResolver = sourceResolver;
             _userAccessor = userAccessor;
+            _clientSourceResolver = clientSourceReolver;
         }
 
         public async Task Add(Income income)
         {
             income.ClientId = _userAccessor.GetId();
-            income.SourceId = await ResolveSource(income.Source.Name);
-
-            //otherwise, on saving changes new source is also added because 
-            //income.Source.Id = 0 and it is treated as a new entity
-            income.Source = null;
-
-            _context.Add(income);
+            income.Source = await  _sourceResolver.Resolve(income.Source.Name);
+           
+             _context.Add(income);
             await _context.SaveChangesAsync();
-        }
 
-        private async Task<int> ResolveSource(string sourceName)
-        {
-            return await _sourceResolver.Resolve(sourceName);
+            var clientSource = await _clientSourceResolver.Resolve(income.ClientId, income.Source.Id);
+            if (clientSource != null)
+            {
+                _context.ClientSources.Add(clientSource);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

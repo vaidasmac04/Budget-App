@@ -15,13 +15,16 @@ namespace Budget.Application.Incomes
     {
         private readonly BudgetContext _context;
         private readonly ISourceResolver _sourceResolver;
+        private readonly IClientSourceResolver _clientSourceResolver;
         private readonly IMapper _mapper;
 
-        public IncomeUpdater(BudgetContext context, ISourceResolver sourceResolver, IMapper mapper)
+        public IncomeUpdater(BudgetContext context, ISourceResolver sourceResolver, 
+            IClientSourceResolver clientSourceResolver, IMapper mapper)
         {
             _context = context;
             _sourceResolver = sourceResolver;
             _mapper = mapper;
+            _clientSourceResolver = clientSourceResolver;
         }
 
         public async Task Update(Income income)
@@ -33,11 +36,17 @@ namespace Budget.Application.Incomes
                 throw new ArgumentException("Unable to update income because it doesn't exist");
             }
 
-            queriedIncome.SourceId = await _sourceResolver.Resolve(income.Source.Name);
+            queriedIncome.Source = await _sourceResolver.Resolve(income.Source.Name);
             queriedIncome.Value = income.Value;
             queriedIncome.Date = income.Date;
-
             await _context.SaveChangesAsync();
+
+            var clientSource = await _clientSourceResolver.Resolve(queriedIncome.ClientId, queriedIncome.Source.Id);
+            if (clientSource != null)
+            {
+                _context.ClientSources.Add(clientSource);
+                await _context.SaveChangesAsync();
+            }
         }
 
     }
