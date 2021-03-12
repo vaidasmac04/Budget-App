@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BudgetAPI.Data;
-using BudgetAPI.Models;
+using Budget.Persistence;
+using Budget.Domain;
 
 namespace BudgetAPI.Controllers
 {

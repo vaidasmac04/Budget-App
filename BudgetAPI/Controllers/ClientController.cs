@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Budget.Domain;
+using Budget.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BudgetAPI.Data;
-using BudgetAPI.Models;
 
 namespace BudgetAPI.Controllers
 {

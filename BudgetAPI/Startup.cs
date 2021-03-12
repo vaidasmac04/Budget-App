@@ -1,9 +1,13 @@
-﻿using BudgetAPI.Data;
-using BudgetAPI.Data.Seeder;
+﻿using Budget.Application;
+using Budget.Application.Extensions;
+using Budget.Application.Incomes;
+using Budget.Application.Interfaces;
+using Budget.Infrastructure.Services;
+using Budget.Persistence;
+using Budget.Persistence.Seeder;
 using BudgetAPI.Helpers;
-using BudgetAPI.Mapping;
 using BudgetAPI.Services;
-using BudgetAPI.Services.Incomes;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -93,16 +97,11 @@ namespace BudgetAPI
                 };
             });
 
-
-            services.AddAutoMapper(cfg =>
-            {
-                cfg.AddProfile<IncomeProfile>();
-            });
+            services.AddApplication();
 
             services.AddScoped<IClientAuthentication, ClientAuthentication>();
-            services.AddTransient<ISeeder, Seeder>();
-            services.AddTransient<IParser, CSVParser>();
-            services.AddTransient<IIncomeHandler, IncomeHandler>();
+            services.AddTransient<IUserAccessor, UserAccessor>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

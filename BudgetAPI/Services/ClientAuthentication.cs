@@ -1,5 +1,5 @@
-﻿using BudgetAPI.Data;
-using BudgetAPI.Models;
+﻿using Budget.Domain;
+using Budget.Persistence;
 using System;
 using System.Linq;
 
