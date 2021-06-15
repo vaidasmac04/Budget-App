@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BudgetAPI.Controllers
+namespace Budget.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

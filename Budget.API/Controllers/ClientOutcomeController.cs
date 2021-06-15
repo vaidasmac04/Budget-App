@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Budget.Persistence;
 using Budget.Domain;
 
-namespace BudgetAPI.Controllers
+namespace Budget.API.Controllers
 {
     [Route("api/ClientOutcome")]
     [ApiController]

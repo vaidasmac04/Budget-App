@@ -1,7 +1,7 @@
 ﻿
 using Budget.Domain;
 
-namespace BudgetAPI.Services
+namespace Budget.API.Services
 {
     public interface IClientAuthentication
     {

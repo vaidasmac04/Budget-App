@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BudgetAPI.Helpers
+namespace Budget.API.Helpers
 {
     public class AppSettings
     {

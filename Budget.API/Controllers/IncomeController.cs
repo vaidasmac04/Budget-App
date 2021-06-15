@@ -8,7 +8,7 @@ using Budget.Application.Incomes;
 using Budget.Domain;
 using Microsoft.AspNetCore.Authorization;
 
-namespace BudgetAPI.Controllers
+namespace Budget.API.Controllers
 {
     [Authorize]
     public class IncomeController : ApiControllerBase

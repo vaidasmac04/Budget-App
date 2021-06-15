@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace BudgetAPI.Controllers
+namespace Budget.API.Controllers
 {
     [Route("api/Client")]
     [ApiController]

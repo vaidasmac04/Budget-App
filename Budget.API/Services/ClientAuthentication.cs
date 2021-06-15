@@ -3,11 +3,11 @@ using Budget.Persistence;
 using System;
 using System.Linq;
 
-namespace BudgetAPI.Services
+namespace Budget.API.Services
 {
     public class ClientAuthentication : IClientAuthentication
     {
-        private BudgetContext _context;
+        private readonly BudgetContext _context;
 
         public ClientAuthentication(BudgetContext context)
         {
@@ -47,9 +47,8 @@ namespace BudgetAPI.Services
             {
                 throw new ArgumentException("Username '" + client.Username + "' is already taken");
             }
-             
-            byte[] passwordHash, passwordSalt;
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
             client.PasswordHash = passwordHash;
             client.PasswordSalt = passwordSalt;
@@ -67,18 +66,16 @@ namespace BudgetAPI.Services
                 throw new ArgumentException("Value cannot be empty or whitespace only string.");
             }
 
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
+            using var hmac = new System.Security.Cryptography.HMACSHA512();
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
 
         private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (string.IsNullOrWhiteSpace(password))
             {
-                throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+                throw new ArgumentException("Value cannot be empty or whitespace only string.", nameof(password));
             }
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))

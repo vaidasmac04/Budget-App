@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Budget.Application.DTOs;
 using Budget.Domain;
-using BudgetAPI.Helpers;
-using BudgetAPI.Services;
+using Budget.API.Helpers;
+using Budget.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BudgetAPI.Controllers.Authentication
+namespace Budget.API.Controllers.Authentication
 {
     [Authorize]
     [Route("api/Authentication")]
@@ -69,7 +69,7 @@ namespace BudgetAPI.Controllers.Authentication
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterDTO model)
         {
-            Client client = new Client
+            Client client = new()
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
