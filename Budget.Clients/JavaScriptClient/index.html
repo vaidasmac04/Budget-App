@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title> Budget Management Website </title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">  
+        <meta charset="UTF-8">
+
+		<script type="text/javascript" src="scripts/startup.js"></script>
+		<script type="text/javascript" src="scripts/login.js"></script>
+		<script type="text/javascript" src="scripts/common.js"></script>
+
+		<link rel="stylesheet" href="styles/common.css">
+		<link rel="stylesheet" href="styles/login.css">
+	</head>
+	
+	<body>
+
+		<div id="login" class="centered">
+			<h1 id="website-title">Budget Management System</h1>
+
+			<form id="register-form">
+				<p id="registration-validation"class="validation-message"></p>
+				<input type="text" id="reg-first-name" placeholder="First name"/>
+				<input type="text" id="reg-last-name" placeholder="Last name"/>
+				<input type="text" id="reg-username" placeholder="Username"/>
+				<input type="password" id="reg-password"  placeholder="Password"/>
+				<input type="button" value="Register" onclick="onRegisterClicked()"/>
+				<p class="message">
+					Already registered? 
+					<span onClick="onAlreadyRegisteredClicked()">Sign in</span>
+				</p>
+			</form>
+
+			<form id="login-form">
+				<p id="login-validation" class="validation-message"></p>
+				<input type="text" id="username" placeholder="username"/>
+				<input type="password" id="password" placeholder="password"/>
+				<input type="button" value="Login" onclick="onLoginClicked()"/>
+				<p class="message">
+					Not registered? 
+					<span onClick="onNotRegisteredClicked()">Create an account</span>
+				</p>
+			</form>
+		</div>
+
+		<div id="loader">
+
+		</div>
+
+	</body>
+</html>

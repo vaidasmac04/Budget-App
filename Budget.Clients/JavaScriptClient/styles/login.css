@@ -1,0 +1,39 @@
+#login {
+  background: #FFFFFF;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0px 0px 20px 3px gray;
+  width: 300px;
+}
+
+#login input {
+  background: #f2f2f2;
+  width: 100%;
+  margin: 0 0 15px;
+  padding: 15px;
+  font-size: 14px;
+  border: 0px;
+  box-sizing: border-box;
+}
+
+#login input[type="button"] {
+  cursor: pointer;
+  outline: none;
+  background-color: #a4b3b6;
+  border-radius: 25px;
+}
+
+#login .message {
+  margin: 15px 0 0;
+  color: #2a1b3d;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+#login .message span {
+   cursor: pointer;
+}
+
+#login #register-form {
+  display: none;
+}

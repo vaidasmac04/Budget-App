@@ -1,0 +1,32 @@
+.pretty-table {
+    border-collapse: collapse;
+    margin: 2px 0px;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+}
+
+.pretty-table th, .pretty-table td {
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.pretty-table tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.pretty-table tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.pretty-table tr:nth-of-type(odd) {
+    background-color: #fafafa;
+}
+
+.pretty-table tr:first-child {
+    background-color: #3a2453;
+    color: white;
+    text-align: left;
+}

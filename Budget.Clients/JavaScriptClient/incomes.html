@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Incomes</title>  
+
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <meta charset="UTF-8">
+
+        <script type="text/javascript" src="scripts/table-creator.js"></script> 
+        <script type="text/javascript" src="scripts/income.js"></script> 
+        <script type="text/javascript" src="scripts/logout.js"></script> 
+        <script type="text/javascript" src="scripts/exceptions.js"></script> 
+        <script type="text/javascript" src="scripts/common.js"></script> 
+
+        <link rel="stylesheet" href="styles/navigation.css">
+        <link rel="stylesheet" href="styles/table.css">
+        <link rel="stylesheet" href="styles/common.css">
+        <link rel="stylesheet" href="styles/modal.css">
+    </head>
+
+    <body>
+
+        <nav>
+            <ul>
+                <li><a href="home.html">Budget Management Website</a></li>
+                <li><a href="index.html" onClick="logout()">Log out</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="outcomes.html">Outcomes</a></li>
+                <li><a href="incomes.html">Incomes</a></li>
+                <li><a href="home.html">Home</a></li>
+            </ul>
+        </nav>
+
+        <p class="action-container"id="action-message">System response</p>
+
+        <header>
+            <h1>INCOMES</h1>
+        </header>
+
+        <div class="button-hgroup">
+            <button id="add-button" class="button" onclick="onAddClicked()">Add</button>
+            <button id="filter-button" class="button" onclick="onFilterClicked()">Filter</button>
+            <button id="sort-button" class="button" onclick="onSortClicked()">Sort</button>
+        </div>
+
+        </button>
+        <section id="income-section">
+
+        </section>
+
+        <div id="income-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-income-modal" onClick="onCloseIncomeModalClicked()" class="close">&times;</span>
+                <form class="modal-form">
+                    <p id="income-validation" class="validation-message"></p>
+                    <p class="caption-label">Enter new value</p>
+                    <input type="number" step="0.01" id="value" placeholder="value"/>
+                    <p class="caption-label">Enter new date</p>
+                    <input type="date" id="date" placeholder="date"/>
+                    <p class="caption-label">Enter new source</p>
+                    <input type="text" id="source" placeholder="source"/>
+                    <input type="button" id="submit-modal-button" value="Submit"/>
+                </form>
+            </div>
+        </div>
+
+        <div id="loader">
+
+		</div>
+
+    </body>
+
+</html>
